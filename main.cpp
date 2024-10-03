@@ -21,9 +21,9 @@ vector<vector<int>> unsortedArrays;
 
 
 int partition(vector<int>& arr, int low, int high) {
-    cout << "Partitioning with low: " << low << ", high: " << high << endl;
+    //cout << "Partitioning with low: " << low << ", high: " << high << endl;
     // Choose the pivot
-    int pivot = arr[high];
+    int pivot = arr[high];  // Choose the last element as the pivot
   
     // Index of smaller element and indicates 
     // the right position of pivot found so far
@@ -41,7 +41,7 @@ int partition(vector<int>& arr, int low, int high) {
     
     // Move pivot after smaller elements and
     // return its position
-    cout << "Pivot index: " << i + 1 << endl;
+    //cout << "Pivot index: " << i + 1 << endl;
     swap(arr[i + 1], arr[high]);  
     return i + 1;
 }
@@ -51,7 +51,7 @@ void quickSort(vector<int>& arr, int low, int high) {
     if (low < high) {
 
         // pi is the partition return index of pivot
-        cout << "Calling quicksort with low: " << low << ", high: " << high << endl;
+        //cout << "Calling quicksort with low: " << low << ", high: " << high << endl;
         int pi = partition(arr, low, high);
 
         // Recursion calls for smaller elements
@@ -66,31 +66,14 @@ void quickSortMod(vector<int>& arr, int low, int high) {
     if (low < high) {
       
         // Find a pivot in the middle half of the array
-        int pivotIndex = low + (high - low) / 2;
-        int pivot = arr[pivotIndex];
-
-        // Index of smaller element and indicates 
-        // the right position of pivot found so far
-        int i = low - 1;
-
-        // Traverse arr[;low..high] and move all smaller
-        // elements on left side. Elements from low to 
-        // i are smaller after every iteration
-        for (int j = low; j <= high; j++) {
-            if (arr[j] < pivot) {
-                i++;
-                swap(arr[i], arr[j]);
-            }
-        }
-
-        // Move pivot after smaller elements and
-        // return its position
-        swap(arr[i + 1], arr[high]);  
+        int mid = low + (high - low) / 2;
+        swap(arr[mid], arr[high]);  // Swap middle element with high
+        int pi = partition(arr, low, high);  // Reuse partition function 
 
         // Recursion calls for smaller elements
         // and greater or equals elements
-        quickSortMod(arr, low, i);
-        quickSortMod(arr, i + 2, high);
+        quickSortMod(arr, low, pi - 1);
+        quickSortMod(arr, pi + 1, high);
     }
 }
 
@@ -102,30 +85,11 @@ void quickSortRand(vector<int>& arr, int low, int high) {
         int randomIndex = low + rand() % (high - low + 1);
 
         // Choose the pivot randomly
-        int pivot = arr[randomIndex];
+        swap(arr[randomIndex], arr[high]);  // Swap random pivot with high
+        int pi = partition(arr, low, high);  // Reuse partition function  
 
-        // Index of smaller element and indicates 
-        // the right position of pivot found so far
-        int i = low - 1;
-
-        // Traverse arr[;low..high] and move all smaller
-        // elements on left side. Elements from low to 
-        // i are smaller after every iteration
-        for (int j = low; j <= high; j++) {
-            if (arr[j] < pivot) {
-                i++;
-                swap(arr[i], arr[j]);
-            }
-        }
-
-        // Move pivot after smaller elements and
-        // return its position
-        swap(arr[i + 1], arr[high]);  
-
-        // Recursion calls for smaller elements
-        // and greater or equals elements
-        quickSortRand(arr, low, i);
-        quickSortRand(arr, i + 2, high);
+        quickSortRand(arr, low, pi - 1);
+        quickSortRand(arr, pi + 1, high);
     }
 }
 
@@ -152,41 +116,39 @@ int main() {
     
     SplitTimer timer;
 
-    //cout << "Starting sorts..." << endl;
+    
     cout << "quicksort on sorted array 100k-500k: " << endl;
     for (size_t j = 0; j < sortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
-            //fillArray(sortedArrays[j]);
-            fillArray(sortedArr100k);
+            fillArray(sortedArrays[j]);
             timer.start();
-            quickSort(sortedArr100k, 0, sortedArr100k.size() - 1);
-            cout << "test" << endl;
+            quickSort(sortedArrays[j], 0, sortedArrays[j].size() - 1);
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of sorted arrays using quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of sorted array: " << sortedArrays[j].size() << " using quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
+    
 
-    cout << "quicksort on unsorted arrays 100k-500k: " << endl;
+    cout << "Quicksort on unsorted arrays 100k-500k: " << endl;
     for (size_t j = 0; j < unsortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
             fillArrayRand(unsortedArrays[j]);
             timer.start();
             quickSort(unsortedArrays[j], 0, unsortedArrays[j].size() - 1);
-            cout << "test" << endl;
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of unsorted arrays using quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of unsorted array: " << unsortedArrays[j].size() << " using quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
 
-    cout << "Modified quicksort on sorted array 100k-500k: " << endl;
+    cout << "\nModified quicksort on sorted array 100k-500k: " << endl;
     for (size_t j = 0; j < sortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -196,12 +158,12 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of sorted arrays using modded quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of sorted array: " << sortedArrays[j].size() << " using modded quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
 
-    cout << "Modified quicksort on unsorted arrays 100k-500k: " << endl;
+    cout << "\nModified quicksort on unsorted arrays 100k-500k: " << endl;
     for (size_t j = 0; j < unsortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -211,13 +173,13 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of unsorted arrays using modded quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of unsorted array: " << unsortedArrays[j].size() << " using modded quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
 
 
-    cout << "Random quicksort on sorted array 100k-500k: " << endl;
+    cout << "\nRandom quicksort on sorted array 100k-500k: " << endl;
     for (size_t j = 0; j < sortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -227,12 +189,12 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of sorted arrays using random quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of sorted array: " << sortedArrays[j].size() << " using random quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
 
-    cout << "Random quicksort on unsorted arrays 100k-500k: " << endl;
+    cout << "\nRandom quicksort on unsorted arrays 100k-500k: " << endl;
     for (size_t j = 0; j < unsortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -242,7 +204,7 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of unsorted arrays using random quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of unsorted array: " << unsortedArrays[j].size() << " using random quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
