@@ -29,22 +29,4 @@ public:
     }
 };
 
-/* example code
-int main() {
-    SplitTimer timer;
-    timer.start();
-
-    // Simulate some activity (e.g., running a lap)
-    // You can call timer.recordLap() whenever needed.
-
-    // Example: Record three laps
-    for (int lap = 1; lap <= 3; ++lap) {
-        std::cout << "Lap " << lap << std::endl;
-        timer.recordLap();
-    }
-
-    return 0;
-}
-*/
-
 #endif

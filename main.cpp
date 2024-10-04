@@ -71,7 +71,7 @@ void quickSortMod(vector<int>& arr, int low, int high) {
         int pi = partition(arr, low, high);  // Reuse partition function 
 
         // Recursion calls for smaller elements
-        // and greater or equals elements
+        // and greater or equal elements
         quickSortMod(arr, low, pi - 1);
         quickSortMod(arr, pi + 1, high);
     }
@@ -111,13 +111,14 @@ void fillArray(vector<int>& arr) {
 int main() {
 
     double timerAvg = 0, totalTime = 0;
+    // vectors of unsorted and sorted arrays
     unsortedArrays = {arr100k, arr200k, arr300k, arr400k, arr500k};
     sortedArrays = {sortedArr100k, sortedArr200k, sortedArr300k, sortedArr400k, sortedArr500k};
     
     SplitTimer timer;
 
     
-    cout << "quicksort on sorted array 100k-500k: " << endl;
+    cout << "Quicksort on sorted array 100k-500k: " << endl;
     for (size_t j = 0; j < sortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -133,7 +134,7 @@ int main() {
     timerAvg = 0;
     
 
-    cout << "Quicksort on unsorted arrays 100k-500k: " << endl;
+    cout << "\nQuicksort on unsorted arrays 100k-500k: " << endl;
     for (size_t j = 0; j < unsortedArrays.size(); ++j) {
         cout << "Array #" << j + 1 << ": " << endl;
         for (int i = 0; i < 10; ++i) {
@@ -158,7 +159,7 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of sorted array: " << sortedArrays[j].size() << " using modded quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of sorted array: " << sortedArrays[j].size() << " using modified quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
@@ -173,7 +174,7 @@ int main() {
             totalTime += timer.stop();
         }
         timerAvg = totalTime / 10;
-        cout << "Average time of unsorted array: " << unsortedArrays[j].size() << " using modded quicksort: " << timerAvg << " ms" << endl;
+        cout << "Average time of unsorted array: " << unsortedArrays[j].size() << " using modified quicksort: " << timerAvg << " ms" << endl;
         totalTime = 0;
     }
     timerAvg = 0;
@@ -209,15 +210,5 @@ int main() {
     }
     timerAvg = 0;
 
-    //todo make sure quicksorts all work correctly
-    /* example usage
-    vector<int> arr = {10, 7, 8, 9, 1, 5};
-    int n = arr.size();
-    quickSort(arr, 0, n - 1);
-    cout << "Sorted Array\n";
-    for (int i = 0; i < n; i++) {
-        cout << arr[i] << " ";
-    }
-    */
     return 0;
 }
