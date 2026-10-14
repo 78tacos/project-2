@@ -24,7 +24,6 @@ public:
     int stop() {
         auto now = std::chrono::steady_clock::now();
         auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(now - start_time);
-        //std::cout << "Run time: " << elapsed.count() << " ms" << std::endl;
         return elapsed.count();
     }
 };
