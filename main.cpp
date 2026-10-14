@@ -21,17 +21,10 @@ vector<vector<int>> unsortedArrays;
 
 
 int partition(vector<int>& arr, int low, int high) {
-    //cout << "Partitioning with low: " << low << ", high: " << high << endl;
-    // Choose the pivot
-    int pivot = arr[high];  // Choose the last element as the pivot
+    int pivot = arr[high];
   
-    // Index of smaller element and indicates 
-    // the right position of pivot found so far
     int i = low - 1;
 
-    // Traverse arr[;ow..high] and move all smaller
-    // elements on left side. Elements from low to 
-    // i are smaller after every iteration
     for (int j = low; j <= high - 1; j++) {
         if (arr[j] < pivot) {
             i++;
@@ -39,9 +32,6 @@ int partition(vector<int>& arr, int low, int high) {
         }
     }
     
-    // Move pivot after smaller elements and
-    // return its position
-    //cout << "Pivot index: " << i + 1 << endl;
     swap(arr[i + 1], arr[high]);  
     return i + 1;
 }
@@ -50,12 +40,8 @@ void quickSort(vector<int>& arr, int low, int high) {
   
     if (low < high) {
 
-        // pi is the partition return index of pivot
-        //cout << "Calling quicksort with low: " << low << ", high: " << high << endl;
         int pi = partition(arr, low, high);
 
-        // Recursion calls for smaller elements
-        // and greater or equals elements
         quickSort(arr, low, pi - 1);
         quickSort(arr, pi + 1, high);
     }
@@ -65,13 +51,11 @@ void quickSortMod(vector<int>& arr, int low, int high) {
   
     if (low < high) {
       
-        // Find a pivot in the middle half of the array
         int mid = low + (high - low) / 2;
-        swap(arr[mid], arr[high]);  // Swap middle element with high
-        int pi = partition(arr, low, high);  // Reuse partition function 
+        // partition() always pivots on the last element.
+        swap(arr[mid], arr[high]);
+        int pi = partition(arr, low, high);
 
-        // Recursion calls for smaller elements
-        // and greater or equal elements
         quickSortMod(arr, low, pi - 1);
         quickSortMod(arr, pi + 1, high);
     }
@@ -81,12 +65,11 @@ void quickSortRand(vector<int>& arr, int low, int high) {
   
     if (low < high) {
       
-        // Generate a random index within the range of low and high
         int randomIndex = low + rand() % (high - low + 1);
 
-        // Choose the pivot randomly
-        swap(arr[randomIndex], arr[high]);  // Swap random pivot with high
-        int pi = partition(arr, low, high);  // Reuse partition function  
+        // partition() always pivots on the last element.
+        swap(arr[randomIndex], arr[high]);
+        int pi = partition(arr, low, high);
 
         quickSortRand(arr, low, pi - 1);
         quickSortRand(arr, pi + 1, high);
@@ -111,7 +94,6 @@ void fillArray(vector<int>& arr) {
 int main() {
 
     double timerAvg = 0, totalTime = 0;
-    // vectors of unsorted and sorted arrays
     unsortedArrays = {arr100k, arr200k, arr300k, arr400k, arr500k};
     sortedArrays = {sortedArr100k, sortedArr200k, sortedArr300k, sortedArr400k, sortedArr500k};
     
